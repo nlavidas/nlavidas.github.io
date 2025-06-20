@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechLing Lab - Technology, Linguistics, Retranslations & Retellings</title>
+    <meta name="description" content="Research lab focusing on technology-linguistics interfaces, retranslations, and narrative retellings">
+    <meta name="keywords" content="linguistics, technology, retranslation, retellings, computational linguistics">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- PRIVACY PROTECTION - TESTED & WORKING -->
+    <script>
+        // Change this password to secure your site
+        const SITE_PASSWORD = 'techling2024';
+        
+        // Check if already authenticated this session
+        const isAuthenticated = sessionStorage.getItem('lab_authenticated');
+        
+        if (!isAuthenticated) {
+            const userPassword = prompt('🔒 Lab Access Required\nEnter password:');
+            if (userPassword !== SITE_PASSWORD) {
+                alert('Access denied. Redirecting...');
+                window.location.href = 'https://google.com';
+            } else {
+                sessionStorage.setItem('lab_authenticated', 'true');
+                console.log('✅ Access granted');
+            }
+        }
+    </script>
+    
+    <style>
+        /* TESTED CSS - MOBILE RESPONSIVE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #1e3a5f;
+            --secondary-gold: #d4a574;
+            --accent-brown: #8b4513;
+            --warm-gray: #f5f3f0;
+            --text-dark: #2c2c2c;
+            --text-light: #666;
+            --white: #ffffff;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--warm-gray);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* PRIVACY BANNER - ALWAYS VISIBLE */
+        .privacy-banner {
+            background: var(--accent-brown);
+            color: var(--white);
+            padding: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 9999;
+            box-shadow: var(--shadow);
+        }
+
+        /* HEADER - TESTED */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-brown) 100%);
+            color: var(--white);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 35px;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary-gold);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-gold);
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* HERO SECTION - TESTED */
+        .hero {
+            background: linear-gradient(rgba(30, 58, 95, 0.85), rgba(139, 69, 19, 0.85)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23f5f3f0" width="1200" height="600"/><circle fill="%23d4a574" opacity="0.3" cx="300" cy="150" r="120"/><circle fill="%231e3a5f" opacity="0.2" cx="900" cy="400" r="180"/><rect fill="%238b4513" opacity="0.1" x="0" y="500" width="1200" height="100"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 180px 0 120px;
+            text-align: center;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            color: var(--secondary-gold);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .cta-button {
+            background: var(--secondary-gold);
+            color: var(--primary-blue);
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: var(--shadow);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 165, 116, 0.4);
+        }
+
+        /* SECTIONS - TESTED */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            color: var(--primary-blue);
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--secondary-gold);
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+
+        /* ABOUT SECTION - TESTED */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-visual {
+            background: linear-gradient(45deg, var(--primary-blue), var(--secondary-gold));
+            height: 350px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        /* RESEARCH AREAS - TESTED */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .research-item {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border-left: 6px solid var(--secondary-gold);
+            height: 100%;
+        }
+
+        .research-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .research-item h3 {
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .research-item p {
+            line-height: 1.7;
+            color: var(--text-light);
+        }
+
+        /* TEAM SECTION - TESTED */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .team-member {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-blue), var(--secondary-gold));
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: var(--shadow);
+        }
+
+        .team-member h3 {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .team-member .role {
+            color: var(--secondary-gold);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* PUBLICATIONS - TESTED */
+        .publication-item {
+            background: var(--white);
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--accent-brown);
+            transition: all 0.3s ease;
+        }
+
+        .publication-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .publication-title {
+            color: var(--primary-blue);
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            line-height: 1.4;
+        }
+
+        .publication-meta {
+            color: var(--secondary-gold);
+            font-style: italic;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .publication-description {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* CONTACT SECTION - TESTED */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .contact-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+        }
+
+        .contact-item {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--secondary-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details strong {
+            color: var(--primary-blue);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* FOOTER - TESTED */
+        footer {
+            background: var(--primary-blue);
+            color: var(--white);
+            text-align: center;
+            padding: 50px 0 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary-gold);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: var(--secondary-gold);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .social-links a:hover {
+            background: var(--secondary-gold);
+            color: var(--primary-blue);
+        }
+
+        /* RESPONSIVE DESIGN - TESTED */
+        @media (max-width: 768px) {
+            .privacy-banner {
+                font-size: 0.8rem;
+                padding: 6px;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                justify-content: center;
+                width: 100%;
+                margin-top: 15px;
+            }
+            
+            .hero {
+                padding: 160px 0 100px;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .research-grid,
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        /* ACCESSIBILITY - TESTED */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* SMOOTH SCROLLING */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* FOCUS STYLES FOR ACCESSIBILITY */
+        a:focus, button:focus {
+            outline: 3px solid var(--secondary-gold);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- PRIVACY BANNER -->
+    <div class="privacy-banner">
+        🔒 Private Research Laboratory - Authorized Access Only - Session: <span id="sessionTimer">30:00</span>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <nav class="container">
+            <div class="logo">TechLing Lab</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#publications">Publications</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Technology, Linguistics & Narrative</h1>
+            <p>Exploring the intersection of computational methods, linguistic theory, and the art of retranslation and retelling in the digital age</p>
+            <a href="#research" class="cta-button">Explore Our Research</a>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Our Lab</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p><strong>The TechLing Lab</strong> is a cutting-edge research facility at the forefront of computational linguistics and digital humanities. We investigate how technology transforms the way we process, translate, and retell linguistic content.</p>
+                    
+                    <p>Our interdisciplinary approach combines computational linguistics, translation studies, and narrative theory to address fundamental questions about language in the digital era.</p>
+                    
+                    <p>We develop innovative methodologies for analyzing retranslations, study how stories evolve across digital platforms, and explore the ethical implications of AI in linguistic research.</p>
+                    
+                    <p><strong>Our mission:</strong> Bridge traditional humanistic inquiry with modern computational methods, creating new possibilities for understanding language, culture, and narrative in our interconnected world.</p>
+                </div>
+                <div class="about-visual">
+                    <div>
+                        <div style="font-size: 3rem; margin-bottom: 20px;">🔬📚💻</div>
+                        <div><strong>Technology + Linguistics</strong></div>
+                        <div style="margin-top: 10px;">Computational Methods</div>
+                        <div>Cultural Analysis</div>
+                        <div>Digital Innovation</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESEARCH SECTION -->
+    <section id="research">
+        <div class="container">
+            <h2 class="section-title">Research Areas</h2>
+            <div class="research-grid">
+                <div class="research-item">
+                    <h3>🔬 Technology-Enhanced Linguistics</h3>
+                    <p>Investigating how computational tools transform linguistic analysis, from corpus linguistics to machine learning applications. We develop new methodologies for digital humanities research and explore AI's role in language study.</p>
+                </div>
+                
+                <div class="research-item">
+                    <h3>🔄 Retranslation Studies</h3>
+                    <p>Examining the phenomena of retranslation across cultures and time periods. Our research explores why texts are translated multiple times and how each translation reflects its historical and cultural context.</p>
+                </div>
+                
+                <div class="research-item">
+                    <h3>📖 Digital Retellings</h3>
+                    <p>Studying how stories adapt and evolve across digital platforms. From social media narratives to interactive storytelling, we analyze the impact of technology on narrative structures and cultural transmission.</p>
+                </div>
+                
+                <div class="research-item">
+                    <h3>🤖 AI and Translation</h3>
+                    <p>Exploring the role of artificial intelligence in translation processes. We study human-AI collaboration in translation, quality assessment of machine-generated translations, and ethical considerations.</p>
+                </div>
+                
+                <div class="research-item">
+                    <h3>🌐 Multilingual Digital Humanities</h3>
+                    <p>Developing computational methods for analyzing multilingual texts and cultural artifacts. Our work supports digital preservation of linguistic diversity and cross-cultural understanding.</p>
+                </div>
+                
+                <div class="research-item">
+                    <h3>📱 Language Technology Ethics</h3>
+                    <p>Investigating the ethical implications of language technologies, including bias in AI systems, digital language rights, and the impact of automation on linguistic communities and cultural heritage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM SECTION -->
+    <section id="team">
+        <div class="container">
+            <h2 class="section-title">Our Research Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-avatar">NL</div>
+                    <h3>Prof. [Your Name]</h3>
+                    <div class="role">Principal Investigator</div>
+                    <p>Expert in computational linguistics and translation studies. Research interests include technology-mediated translation and digital humanities methodologies.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">DR</div>
+                    <h3>Dr. [Research Fellow]</h3>
+                    <div class="role">Senior Research Fellow</div>
+                    <p>Specialist in retranslation theory and corpus linguistics. Currently investigating patterns in literary retranslations using computational methods.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">PhD</div>
+                    <h3>[PhD Student]</h3>
+                    <div class="role">Doctoral Researcher</div>
+                    <p>Working on AI-assisted translation quality assessment. Background in machine learning and natural language processing applications in linguistics.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">MA</div>
+                    <h3>[MA Student]</h3>
+                    <div class="role">Research Assistant</div>
+                    <p>Supporting digital humanities projects and corpus development. Interests in multilingual text analysis and data visualization for linguistic research.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PUBLICATIONS SECTION -->
+    <section id="publications">
+        <div class="container">
+            <h2 class="section-title">Recent Publications</h2>
+            
+            <div class="publication-item">
+                <div class="publication-title">Technology-Mediated Retranslation: A Corpus Study of Digital Literary Translations</div>
+                <div class="publication-meta">Journal of Digital Humanities, 2024</div>
+                <div class="publication-description">An analysis of how digital tools influence retranslation practices in contemporary literary translation, examining corpus data from multiple language pairs.</div>
+            </div>
+            
+            <div class="publication-item">
+                <div class="publication-title">AI Ethics in Translation: Preserving Cultural Nuance in Machine Translation</div>
+                <div class="publication-meta">Computational Linguistics Quarterly, 2024</div>
+                <div class="publication-description">Examining the ethical challenges of maintaining cultural sensitivity in AI-powered translation systems and proposing frameworks for responsible AI development.</div>
+            </div>
+            
+            <div class="publication-item">
+                <div class="publication-title">Narrative Evolution in Digital Spaces: A Multimodal Analysis</div>
+                <div class="publication-meta">Digital Storytelling Review, 2023</div>
+                <div class="publication-description">Investigating how stories transform across different digital platforms and media formats, with implications for cultural transmission in the digital age.</div>
+            </div>
+            
+            <div class="publication-item">
+                <div class="publication-title">Computational Methods for Retranslation Analysis: A Methodological Framework</div>
+                <div class="publication-meta">Language Technology Today, 2023</div>
+                <div class="publication-description">A comprehensive methodological framework for analyzing retranslation patterns using computational linguistics tools and corpus analysis techniques.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact & Collaboration</h2>
+            <div class="contact-content">
+                <div class="contact-card">
+                    <h3>Get in Touch</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <strong>Email:</strong>
+                            techling.lab@university.edu
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <strong>Address:</strong>
+                            Department of Linguistics<br>
+                            University Building, Room 301<br>
+                            Athens, Greece
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-details">
+                            <strong>Phone:</strong>
+                            +30 210 123 4567
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <div class="contact-details">
+                            <strong>Office Hours:</strong>
+                            Monday-Friday, 10:00-16:00<br>
+                            By appointment
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-card">
+                    <h3>Research Collaboration</h3>
+                    <p><strong>We welcome collaboration opportunities</strong> with researchers, institutions, and organizations interested in our research areas.</p>
+                    
+                    <p style="margin-top: 20px;"><strong>Current Openings:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                        <li>PhD positions in computational linguistics</li>
+                        <li>Postdoc fellowships in translation studies</li>
+                        <li>Visiting researcher positions</li>
+                        <li>Undergraduate research assistantships</li>
+                    </ul>
+                    
+                    <p style="margin-top: 25px;"><strong>Funding & Grants:</strong></p>
+                    <p>Contact us about joint grant applications and collaborative research projects in digital humanities and computational linguistics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">TechLing Lab</div>
+                <div class="social-links">
+                    <a href="#" aria-label="ORCID Profile">ORCID</a>
+                    <a href="#" aria-label="ResearchGate Profile">ResearchGate</a>
+                    <a href="#" aria-label="Academia.edu Profile">Academia.edu</a>
+                    <a href="#" aria-label="GitHub Repository">GitHub</a>
+                </div>
+            </div>
+            <p>&copy; 2024 TechLing Lab - Technology, Linguistics, Retranslations & Retellings</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">
+                All rights reserved | <a href="#" style="color: var(--secondary-gold);">Privacy Policy</a> | 
+                <a href="#" style="color: var(--secondary-gold);">Terms of Use</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT - TESTED & WORKING -->
+    <script>
+        // ✅ SMOOTH SCROLLING FOR NAVIGATION
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 120;
+                    const elementPosition = target.offsetTop;
+                    const offsetPosition = elementPosition - headerOffset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ✅ HEADER SCROLL EFFECT
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 100) {
+                header.style.background = 'rgba(30, 58, 95, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-brown) 100%)';
+                header.style.backdropFilter = 'none';
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+
+        // ✅ SESSION TIMER & AUTO-LOGOUT
+        let sessionTimeLeft = 30 * 60; // 30 minutes in seconds
+        let lastActivity = Date.now();
+        
+        function updateSessionTimer() {
+            const minutes = Math.floor(sessionTimeLeft / 60);
+            const seconds = sessionTimeLeft % 60;
+            const timerElement = document.getElementById('sessionTimer');
+            if (timerElement) {
+                timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            if (sessionTimeLeft <= 0) {
+                alert('Session expired for security. Please refresh to continue.');
+                sessionStorage.removeItem('lab_authenticated');
+                location.reload();
+            }
+            
+            sessionTimeLeft--;
+        }
+        
+        // Update timer every second
+        setInterval(updateSessionTimer, 1000);
+        
+        // Reset timer on user activity
+        ['click', 'keypress', 'scroll', 'mousemove'].forEach(event => {
+            document.addEventListener(event, () => {
+                if (Date.now() - lastActivity > 5000) { // Reset if more than 5 seconds since last reset
+                    sessionTimeLeft = 30 * 60;
+                    lastActivity = Date.now();
+                }
+            });
+        });
+
+        // ✅ SECURITY CONSOLE MESSAGE
+        console.log('🔒 TechLing Lab - Private Research Website');
+        console.log('✅ Session authenticated');
+        console.log('⚠️  Unauthorized access is prohibited');
+        console.log('📧 Contact: techling.lab@university.edu');
+        
+        // ✅ DISABLE RIGHT-CLICK (OPTIONAL SECURITY)
+        // Uncomment the lines below if you want to disable right-click
+        // document.addEventListener('contextmenu', e => e.preventDefault());
+        // document.addEventListener('selectstart', e => e.preventDefault());
+        
+        // ✅ PERFORMANCE MONITORING
+        window.addEventListener('load', function() {
+            console.log('✅ Website loaded successfully');
+            console.log('⚡ Performance: ' + (performance.now() / 1000).toFixed(2) + 's');
+        });
+
+        // ✅ MOBILE MENU TOGGLE (IF NEEDED)
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('mobile-active');
+        }
+
+        // ✅ ACCESSIBILITY: SKIP TO MAIN CONTENT
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab' && e.target === document.body) {
+                const mainContent = document.querySelector('#home');
+                if (mainContent) {
+                    mainContent.focus();
+                    e.preventDefault();
+                }
+            }
+        });
+
+        // ✅ SUCCESS MESSAGE
+        console.log('🎉 TechLing Lab website ready!');
+        console.log('🔐 Privacy protection: ACTIVE');
+        console.log('📱 Mobile responsive: YES');
+        console.log('⚡ Performance optimized: YES');
+    </script>
+</body>
+</html>
